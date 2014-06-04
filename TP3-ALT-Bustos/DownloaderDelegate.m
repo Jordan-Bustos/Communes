@@ -25,12 +25,12 @@ const int ELOIGNEMENT = 7;
     if (self)
     {
         _URLString = URLString;
-        _villes = [[NSMutableArray alloc]init];
+        _communes = [[NSMutableArray alloc]init];
         _delegate = delegate;
         
         // On construit le path du fichier à stocker.
-        _nsPathOfTmpFile = [NSString stringWithFormat:@"%@/tmp/villes.csv", NSHomeDirectory()];
-        _nsPathOfDocumentFile = [NSString stringWithFormat:@"%@/Documents/villes.csv", NSHomeDirectory()];
+        _nsPathOfTmpFile = [NSString stringWithFormat:@"%@/tmp/ville.csv", NSHomeDirectory()];
+        _nsPathOfDocumentFile = [NSString stringWithFormat:@"%@/Documents/ville.csv", NSHomeDirectory()];
     }
     return self;
 }
@@ -71,7 +71,7 @@ const int ELOIGNEMENT = 7;
         }
     }
     else if([self parseCSVFileOfFileAtPath:_nsPathOfDocumentFile])
-            [_delegate finishWithVilles:_villes];
+            [_delegate finishWithCommunes:_communes];
     
     return true;
 }
@@ -112,7 +112,7 @@ const int ELOIGNEMENT = 7;
             CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
         
             // on informe le delegate
-            [_delegate finishWithVilles:_villes];
+            [_delegate finishWithCommunes:_communes];
         }
     }
     
@@ -147,38 +147,38 @@ const int ELOIGNEMENT = 7;
     for (int i=1;i<[lignes count];i++)
     {
         // On separe la ligne courante par une "," pour recuperer une liste de proprietes
-        NSArray * villeProperties = [[NSArray alloc]init];
-        villeProperties = [lignes[i] componentsSeparatedByString:@";"];
+        NSArray * communeProperties = [[NSArray alloc]init];
+        communeProperties = [lignes[i] componentsSeparatedByString:@";"];
         
-        Ville * ville = [self extractVilleFromVilleProperties:villeProperties];
-        if (ville != nil)
-            [_villes addObject:ville];
+        Commune * commune = [self extractCommuneFromCommuneProperties:communeProperties];
+        if (commune != nil)
+            [_communes addObject:commune];
     }
     
     return true;
 }
 
--(Ville *) extractVilleFromVilleProperties:(NSArray *)villeProperties
+-(Commune *) extractCommuneFromCommuneProperties:(NSArray *)communeProperties
 {
-    if ([villeProperties count] == 8)
+    if ([communeProperties count] == 8)
     {
         // On recupere les proprietes proprietes
-        NSString * nom = [villeProperties objectAtIndex:NOM];
+        NSString * nom = [communeProperties objectAtIndex:NOM];
         nom = [nom stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         if ([nom isEqualToString: @""])
             return nil;
         
-        NSString * maj = [villeProperties objectAtIndex:MAJ];
-        NSString * codePostal = [villeProperties objectAtIndex:CODEPOSTAL];
-        NSString * codeINSEE = [villeProperties objectAtIndex:CODEINSEE];
-        NSString * codeRegion = [villeProperties objectAtIndex:CODEREGION];
-        double latitude = [[villeProperties objectAtIndex:LATITUDE] doubleValue];
-        double longitude = [[villeProperties objectAtIndex:LONGITUDE] doubleValue];
-        double eloignement = [[villeProperties objectAtIndex:ELOIGNEMENT] doubleValue];
+        NSString * maj = [communeProperties objectAtIndex:MAJ];
+        NSString * codePostal = [communeProperties objectAtIndex:CODEPOSTAL];
+        NSString * codeINSEE = [communeProperties objectAtIndex:CODEINSEE];
+        NSString * codeRegion = [communeProperties objectAtIndex:CODEREGION];
+        double latitude = [[communeProperties objectAtIndex:LATITUDE] doubleValue];
+        double longitude = [[communeProperties objectAtIndex:LONGITUDE] doubleValue];
+        double eloignement = [[communeProperties objectAtIndex:ELOIGNEMENT] doubleValue];
         
-        // On cree la ville associee
-        Ville * ville = [[Ville alloc]initWithNom:nom
+        // On cree la commune associee
+        Commune * commune = [[Commune alloc]initWithNom:nom
                                            andMaj:maj
                                     andCodePostal:codePostal
                                      andCodeINSSE:codeINSEE
@@ -186,7 +186,7 @@ const int ELOIGNEMENT = 7;
                                       andLatitude:latitude
                                      andLongitude:longitude
                                    andEloignement:eloignement];        
-        return ville;
+        return commune;
     }
     else
         return nil;

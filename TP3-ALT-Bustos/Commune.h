@@ -1,5 +1,5 @@
 //
-//  jbsVille.h
+//  jbsCommune.h
 //  TP3-ALT-Bustos
 //
 //  Created by Jordan Bustos on 26/05/2014.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Ville : NSObject
+@interface Commune : NSObject
 
 @property (strong) NSString * nom;
 @property (strong) NSString * maj;

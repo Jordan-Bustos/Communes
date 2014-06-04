@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "Ville.h"
+#import "Commune.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, MKMapViewDelegate>
 
-@property (strong, nonatomic) Ville * detailItem;
+@property (strong, nonatomic) Commune * detailItem;
 
 @property (weak, nonatomic) IBOutlet UILabel *lbMAJ;
 @property (weak, nonatomic) IBOutlet UILabel *lbCodePostal;

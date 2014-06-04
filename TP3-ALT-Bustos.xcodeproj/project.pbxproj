@@ -24,7 +24,7 @@
 		B6498DC619335DAD00D164EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6498DA219335DAC00D164EA /* UIKit.framework */; };
 		B6498DCE19335DAD00D164EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B6498DCC19335DAD00D164EA /* InfoPlist.strings */; };
 		B6498DD019335DAD00D164EA /* TP3_ALT_BustosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6498DCF19335DAD00D164EA /* TP3_ALT_BustosTests.m */; };
-		B6498DDC19335DE500D164EA /* Ville.m in Sources */ = {isa = PBXBuildFile; fileRef = B6498DDB19335DE500D164EA /* Ville.m */; };
+		B6498DDC19335DE500D164EA /* Commune.m in Sources */ = {isa = PBXBuildFile; fileRef = B6498DDB19335DE500D164EA /* Commune.m */; };
 		B6498DE019336AB900D164EA /* DownloaderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6498DDF19336AB900D164EA /* DownloaderDelegate.m */; };
 /* End PBXBuildFile section */
 
@@ -49,11 +49,11 @@
 		B6498DAA19335DAC00D164EA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B6498DAC19335DAC00D164EA /* TP3-ALT-Bustos-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TP3-ALT-Bustos-Prefix.pch"; sourceTree = "<group>"; };
 		B6498DAD19335DAC00D164EA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		B6498DAE19335DAC00D164EA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B6498DAE19335DAC00D164EA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B6498DB119335DAC00D164EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		B6498DB419335DAC00D164EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		B6498DB619335DAC00D164EA /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		B6498DB719335DAC00D164EA /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		B6498DB719335DAC00D164EA /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MasterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B6498DB919335DAC00D164EA /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		B6498DBA19335DAC00D164EA /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		B6498DBC19335DAD00D164EA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -62,10 +62,10 @@
 		B6498DCB19335DAD00D164EA /* TP3-ALT-BustosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TP3-ALT-BustosTests-Info.plist"; sourceTree = "<group>"; };
 		B6498DCD19335DAD00D164EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B6498DCF19335DAD00D164EA /* TP3_ALT_BustosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TP3_ALT_BustosTests.m; sourceTree = "<group>"; };
-		B6498DDA19335DE500D164EA /* Ville.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ville.h; sourceTree = "<group>"; };
-		B6498DDB19335DE500D164EA /* Ville.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ville.m; sourceTree = "<group>"; };
+		B6498DDA19335DE500D164EA /* Commune.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commune.h; sourceTree = "<group>"; };
+		B6498DDB19335DE500D164EA /* Commune.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Commune.m; sourceTree = "<group>"; };
 		B6498DDE19336AB900D164EA /* DownloaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloaderDelegate.h; sourceTree = "<group>"; };
-		B6498DDF19336AB900D164EA /* DownloaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloaderDelegate.m; sourceTree = "<group>"; };
+		B6498DDF19336AB900D164EA /* DownloaderDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DownloaderDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,8 +199,8 @@
 		B6498DD919335DD400D164EA /* Metier */ = {
 			isa = PBXGroup;
 			children = (
-				B6498DDA19335DE500D164EA /* Ville.h */,
-				B6498DDB19335DE500D164EA /* Ville.m */,
+				B6498DDA19335DE500D164EA /* Commune.h */,
+				B6498DDB19335DE500D164EA /* Commune.m */,
 			);
 			name = Metier;
 			sourceTree = "<group>";
@@ -320,7 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6498DDC19335DE500D164EA /* Ville.m in Sources */,
+				B6498DDC19335DE500D164EA /* Commune.m in Sources */,
 				B6498DB819335DAC00D164EA /* MasterViewController.m in Sources */,
 				B6498DE019336AB900D164EA /* DownloaderDelegate.m in Sources */,
 				B6498DBB19335DAC00D164EA /* DetailViewController.m in Sources */,

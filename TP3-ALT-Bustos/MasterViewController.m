@@ -74,9 +74,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     NSString * key = [_keysSorted objectAtIndex:indexPath.section];
-    Ville *ville = [[_dictionaryOfCommunesByLetter objectForKey:key] objectAtIndex:indexPath.row];
+    Commune *commune = [[_dictionaryOfCommunesByLetter objectForKey:key] objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [ville nom];
+    cell.textLabel.text = [commune nom];
     return cell;
 }
 
@@ -84,33 +84,33 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Ville *object = _communesAffichees[indexPath.row];
+        Commune *object = _communesAffichees[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }
 
 // information reçue du downloader delegate
--(void) finishWithVilles:(NSMutableArray*) villes
+-(void) finishWithCommunes:(NSMutableArray*) communes
 {
-    _communesAffichees = [self sortVillesByName:villes];
+    _communesAffichees = [self sortCommunesByName:communes];
     _communes = _communesAffichees;
     
     _dictionaryOfCommunesByLetter=[self fixDictionaryOfCommuneByLetterWith: _communes];
     _keysSorted = [self createKeysSorted];
     
     [[self tableView]reloadData]; // rafraichir la liste
-    [self setTitle:@"Liste des villes de France"];
+    [self setTitle:@"Liste des communes de France"];
 }
 
 // Permet de trier les communes par nom
-- (NSMutableArray *)sortVillesByName:(NSMutableArray *)villes
+- (NSMutableArray *)sortCommunesByName:(NSMutableArray *)communes
 {
-    NSArray * sortedVilles = [villes sortedArrayUsingComparator:^NSComparisonResult(Ville* villeA, Ville* villeB)
+    NSArray * sortedcommunes = [communes sortedArrayUsingComparator:^NSComparisonResult(Commune* communeA, Commune* communeB)
                               {
-                                  return [villeA.nom compare:villeB.nom];
+                                  return [communeA.nom compare:communeB.nom];
                               }];
-    NSMutableArray * sortedVillesMutable = [[NSMutableArray alloc]initWithArray:sortedVilles];
-    return sortedVillesMutable;
+    NSMutableArray * sortedCommunesMutable = [[NSMutableArray alloc]initWithArray:sortedcommunes];
+    return sortedCommunesMutable;
 }
 
 // Permet de creer le dictionnaire de communes par lettre (a -> ..., b-> bbb, ...)
@@ -121,11 +121,11 @@
     NSString * lastFirstLetter = [[NSString alloc]init];
     NSString * firstLetter = [[NSString alloc]init];
     
-    // On parcourt les villes
-    for (Ville * ville in communes)
+    // On parcourt les communes
+    for (Commune * commune in communes)
     {
-        // on récupère la 1ère lettre de la ville en cours
-        NSData *data = [ville.nom dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        // on récupère la 1ère lettre de la commune en cours
+        NSData *data = [commune.nom dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *nom = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         
         firstLetter = [nom substringToIndex:1];
@@ -141,8 +141,8 @@
             lastFirstLetter = firstLetter;
         }
         
-        // on insert la ville dans la liste de la clé de cette lettre
-        [[dictionaryOfCommunesByLetter objectForKey:firstLetter]addObject:ville];
+        // on insert la commune dans la liste de la clé de cette lettre
+        [[dictionaryOfCommunesByLetter objectForKey:firstLetter]addObject:commune];
     }
     
     return dictionaryOfCommunesByLetter;
@@ -157,18 +157,24 @@
              }];
 }
 
-// quand on click sur rechercher
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+// quand on est en train de saisir du texte dans la barre de recherche
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    _communesAffichees = [[NSMutableArray alloc]init];
-    NSString * chaineSearch = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([searchText isEqualToString: @""]) // si la chaine est vide on re-initialise la collection des communes
+        _communesAffichees = _communes;
     
-    for (Ville * ville in _communes)
-        if ([ville.nom rangeOfString:chaineSearch].location != NSNotFound)
-            [_communesAffichees addObject:ville];
+    else // sinon on effectue le "filtre" sur la chaine saisie
+    {
+        _communesAffichees = [[NSMutableArray alloc]init]; // on re-initialise la collection de communes affichées
+        
+        // pour chaque commune, si elle contient la chaine saisie, on l'ajoute dans la collection de communes affichées
+        for (Commune * commune in _communes)
+            if ([commune.nom rangeOfString:searchText].location != NSNotFound)
+                [_communesAffichees addObject:commune];
+    }
     
     _dictionaryOfCommunesByLetter = [self fixDictionaryOfCommuneByLetterWith:_communesAffichees];
-    [[self tableView]reloadData]; // rafraichir la liste    
+    [[self tableView]reloadData]; // rafraichir la liste
 }
 
 // information reçue du downloader delegate

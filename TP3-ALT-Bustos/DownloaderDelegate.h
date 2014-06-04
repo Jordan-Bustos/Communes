@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Ville.h"
+#import "Commune.h"
 #import "MasterViewController.h"
 
 @interface DownloaderDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
@@ -20,7 +20,7 @@
 @property (strong) NSString * nsPathOfTmpFile;
 @property (strong) NSString * nsPathOfDocumentFile;
 
-@property (strong) NSMutableArray * villes;
+@property (strong) NSMutableArray * communes;
 
 -(id)initWithURLString:(NSString *)URLString andDelegate:(MasterViewController *) delegate;
 -(BOOL) start;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Ville.h"
+#import "Commune.h"
 @class DetailViewController;
 
 @interface MasterViewController : UITableViewController <UISearchBarDelegate>
@@ -17,9 +17,7 @@
 
 @property NSInteger sectionNumber;
 
--(void) finishWithVilles:(NSMutableArray*) villes;
+-(void) finishWithCommunes:(NSMutableArray*) communes;
 -(void) finishWithError:(NSString*)error;
-
-
 
 @end

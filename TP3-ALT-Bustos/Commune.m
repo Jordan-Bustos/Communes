@@ -1,14 +1,14 @@
 //
-//  jbsVille.m
+//  jbsCommune.m
 //  TP3-ALT-Bustos
 //
 //  Created by Jordan Bustos on 26/05/2014.
 //  Copyright (c) 2014 Jordan Bustos. All rights reserved.
 //
 
-#import "Ville.h"
+#import "Commune.h"
 
-@implementation Ville
+@implementation Commune
 
 -(id) initWithNom:(NSString*)nom
            andMaj:(NSString*)maj
