@@ -19,8 +19,6 @@
 @property float longitude;
 @property float eloignement;
 
-@property NSInteger sectionNumber;
-
 -(id) initWithNom:(NSString*)nom
            andMaj:(NSString*)maj
     andCodePostal:(NSString*)codePostal

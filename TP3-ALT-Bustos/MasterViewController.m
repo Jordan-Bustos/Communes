@@ -11,6 +11,8 @@
 
 @interface MasterViewController () {
     NSMutableArray *_communes ;
+    NSMutableDictionary *_dictionaryOfCommunesByLetter ;
+    NSArray *_keysSorted ;
 }
 @end
 
@@ -30,42 +32,6 @@
     [super viewDidLoad];
 }
 
-// for index
--(void) startConstructIndex
-{
-    // 1 step
-    UILocalizedIndexedCollation *theCollation = [UILocalizedIndexedCollation currentCollation];
-    
-    for (Ville *ville in _communes)
-    {
-        NSInteger sect = [theCollation sectionForObject:ville collationStringSelector:@selector(name)];
-        ville.sectionNumber = sect;
-    }
-    
-    // 2 step
-    NSInteger highSection = [[theCollation sectionTitles] count];
-    NSMutableArray *sectionArrays = [NSMutableArray arrayWithCapacity:highSection];
-    for (int i = 0; i < highSection; i++)
-    {
-        NSMutableArray *sectionArray = [NSMutableArray arrayWithCapacity:1];
-        [sectionArrays addObject:sectionArray];
-    }
-    
-    // 3 step
-    for (Ville *ville in _communes)
-    {
-        [(NSMutableArray *)[sectionArrays objectAtIndex:ville.sectionNumber] addObject:ville];
-    }
-    
-    // 4 step
-    for (NSMutableArray *sectionArray in sectionArrays)
-    {
-        NSArray *sortedSection = [theCollation sortedArrayFromArray:sectionArray
-                                            collationStringSelector:@selector(name)];
-        [_communes addObject:sortedSection];
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -74,64 +40,42 @@
 
 #pragma mark - Table View
 
-/*
-// for index
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
-}
-
-// for index
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if ([[_communes objectAtIndex:section] count] > 0)
-    {
-        return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
-    }
-    return nil;
-}
-
-// for index
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
-}
-
- */
- 
-// for index
+// nombre de section dans la table (= nombre de clés dans le dictionnaire)
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return [_keysSorted count];
 }
 
-// for index
+// nombre de lignes par section (=nombre d'item dans la liste de la section)
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //return [[_communes objectAtIndex:section] count];
-    return [_communes count];
+    NSString * key = [_keysSorted objectAtIndex:section];
+    return [[_dictionaryOfCommunesByLetter objectForKey:key] count];
 }
 
+// titre de la section (=nom de la clé à la section)
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    
+    return [_keysSorted objectAtIndex:section];
+}
+
+// index
+-(NSArray*) sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return _keysSorted;
+}
 
 // for cellule
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    Ville *ville = _communes[indexPath.row];
+    NSString * key = [_keysSorted objectAtIndex:indexPath.section];
+    Ville *ville = [[_dictionaryOfCommunesByLetter objectForKey:key] objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = [ville nom];
     return cell;
-    
-   /* static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell;
-    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    Ville *ville = [[_communes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.textLabel.text = ville.nom;
-    return cell;*/
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -156,11 +100,67 @@
 // information reçue du downloader delegate
 -(void) finishWithVilles:(NSMutableArray*) villes
 {
-    _communes = villes;
+    _communes = [self sortVillesByName:villes];
+    _dictionaryOfCommunesByLetter=[self createDictionaryOfCommuneByLetter];
+    _keysSorted = [self createKeysSorted];
+    
     [[self tableView]reloadData]; // rafraichir la liste
     [self setTitle:@"Liste des villes de france"];
+}
+
+// Permet de trier les communes par nom
+- (NSMutableArray *)sortVillesByName:(NSMutableArray *)villes
+{
+    NSArray * sortedVilles = [villes sortedArrayUsingComparator:^NSComparisonResult(Ville* villeA, Ville* villeB)
+                              {
+                                  return [villeA.nom compare:villeB.nom];
+                              }];
+    NSMutableArray * sortedVillesMutable = [[NSMutableArray alloc]initWithArray:sortedVilles];
+    return sortedVillesMutable;
+}
+
+// Permet de creer le dictionnaire de communes par lettre (a -> ..., b-> bbb, ...)
+-(NSMutableDictionary *) createDictionaryOfCommuneByLetter
+{
+    NSMutableDictionary * dictionaryOfCommunesByLetter = [[NSMutableDictionary alloc]init];
     
-    //[self startConstructIndex];
+    NSString * lastFirstLetter = [[NSString alloc]init];
+    NSString * firstLetter = [[NSString alloc]init];
+    
+    // On parcourt les villes
+    for (Ville * ville in _communes)
+    {
+        // on récupère la 1ère lettre de la ville en cours
+        NSData *data = [ville.nom dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSString *nom = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        
+        firstLetter = [nom substringToIndex:1];
+        
+        // si elle est différente de la dernière stockée
+        if (![lastFirstLetter isEqualToString: firstLetter])
+        {
+            // on insert une liste vide dans le dictionnaire avec la clé de cette lettre
+            NSMutableArray * liste = [[NSMutableArray alloc]init];
+            [dictionaryOfCommunesByLetter setObject:liste forKey:firstLetter];
+            
+            // on stock la lettre
+            lastFirstLetter = firstLetter;
+        }
+        
+        // on insert la ville dans la liste de la clé de cette lettre
+        [[dictionaryOfCommunesByLetter objectForKey:firstLetter]addObject:ville];
+    }
+    
+    return dictionaryOfCommunesByLetter;
+}
+
+// permet de creer une liste de clés triées du dictionnaire de communes
+-(NSArray *) createKeysSorted
+{
+    return  [[_dictionaryOfCommunesByLetter allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString* keyA, NSString* keyB)
+                              {
+                                  return [keyA compare:keyB];
+                              }];
 }
 
 // information reçue du downloader delegate

@@ -16,8 +16,6 @@
 
 @property NSInteger sectionNumber;
 
-
-
 -(void) finishWithVilles:(NSMutableArray*) villes;
 -(void) finishWithError:(NSString*)error;
 

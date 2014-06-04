@@ -164,6 +164,11 @@ const int ELOIGNEMENT = 7;
     {
         // On recupere les proprietes proprietes
         NSString * nom = [villeProperties objectAtIndex:NOM];
+        nom = [nom stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        if ([nom isEqualToString: @""])
+            return nil;
+        
         NSString * maj = [villeProperties objectAtIndex:MAJ];
         NSString * codePostal = [villeProperties objectAtIndex:CODEPOSTAL];
         NSString * codeINSEE = [villeProperties objectAtIndex:CODEINSEE];

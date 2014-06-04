@@ -78,6 +78,7 @@
     MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
     annotationPoint.coordinate = coordonnes;
     annotationPoint.title = _detailItem.nom;
+    
     annotationPoint.subtitle = _detailItem.codePostal;
     [_mkMapView addAnnotation:annotationPoint];
 }
