@@ -10,7 +10,8 @@
 #import "DetailViewController.h"
 
 @interface MasterViewController () {
-    NSMutableArray *_communes ;
+    NSMutableArray *_communes;
+    NSMutableArray *_communesAffichees ;
     NSMutableDictionary *_dictionaryOfCommunesByLetter ;
     NSArray *_keysSorted ;
 }
@@ -30,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _searchBar.delegate = self; // NE PAS OUBLIER
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,21 +80,11 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_communes removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Ville *object = _communes[indexPath.row];
+        Ville *object = _communesAffichees[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }
@@ -100,12 +92,14 @@
 // information reçue du downloader delegate
 -(void) finishWithVilles:(NSMutableArray*) villes
 {
-    _communes = [self sortVillesByName:villes];
-    _dictionaryOfCommunesByLetter=[self createDictionaryOfCommuneByLetter];
+    _communesAffichees = [self sortVillesByName:villes];
+    _communes = _communesAffichees;
+    
+    _dictionaryOfCommunesByLetter=[self fixDictionaryOfCommuneByLetterWith: _communes];
     _keysSorted = [self createKeysSorted];
     
     [[self tableView]reloadData]; // rafraichir la liste
-    [self setTitle:@"Liste des villes de france"];
+    [self setTitle:@"Liste des villes de France"];
 }
 
 // Permet de trier les communes par nom
@@ -120,7 +114,7 @@
 }
 
 // Permet de creer le dictionnaire de communes par lettre (a -> ..., b-> bbb, ...)
--(NSMutableDictionary *) createDictionaryOfCommuneByLetter
+-(NSMutableDictionary *) fixDictionaryOfCommuneByLetterWith: (NSMutableArray *)communes
 {
     NSMutableDictionary * dictionaryOfCommunesByLetter = [[NSMutableDictionary alloc]init];
     
@@ -128,7 +122,7 @@
     NSString * firstLetter = [[NSString alloc]init];
     
     // On parcourt les villes
-    for (Ville * ville in _communes)
+    for (Ville * ville in communes)
     {
         // on récupère la 1ère lettre de la ville en cours
         NSData *data = [ville.nom dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
@@ -158,9 +152,23 @@
 -(NSArray *) createKeysSorted
 {
     return  [[_dictionaryOfCommunesByLetter allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString* keyA, NSString* keyB)
-                              {
-                                  return [keyA compare:keyB];
-                              }];
+             {
+                 return [keyA compare:keyB];
+             }];
+}
+
+// quand on click sur rechercher
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    _communesAffichees = [[NSMutableArray alloc]init];
+    NSString * chaineSearch = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    for (Ville * ville in _communes)
+        if ([ville.nom rangeOfString:chaineSearch].location != NSNotFound)
+            [_communesAffichees addObject:ville];
+    
+    _dictionaryOfCommunesByLetter = [self fixDictionaryOfCommuneByLetterWith:_communesAffichees];
+    [[self tableView]reloadData]; // rafraichir la liste    
 }
 
 // information reçue du downloader delegate
