@@ -15,9 +15,9 @@
     andCodePostal:(NSString*)codePostal
      andCodeINSSE:(NSString*)codeINSSE
     andCodeRegion:(NSString*)codeRegion
-      andLatitude:(float)latitude
-     andLongitude:(float)longitude
-   andEloignement:(float)eloignement
+      andLatitude:(double)latitude
+     andLongitude:(double)longitude
+   andEloignement:(double)eloignement
 {
     self = [super init];
     if (self)

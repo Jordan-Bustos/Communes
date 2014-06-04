@@ -19,13 +19,15 @@
 @property float longitude;
 @property float eloignement;
 
+@property NSInteger sectionNumber;
+
 -(id) initWithNom:(NSString*)nom
            andMaj:(NSString*)maj
     andCodePostal:(NSString*)codePostal
      andCodeINSSE:(NSString*)codeINSSE
     andCodeRegion:(NSString*)codeRegion
-      andLatitude:(float)latitude
-     andLongitude:(float)longitude
-   andEloignement:(float)eloignement;
+      andLatitude:(double)latitude
+     andLongitude:(double)longitude
+   andEloignement:(double)eloignement;
 
 @end

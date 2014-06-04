@@ -117,13 +117,14 @@ const int ELOIGNEMENT = 7;
     }
     
     _receivedData = nil;
-
 }
 
 - (void)connection:(NSURLConnection *)connection
   didFailWithError:(NSError *)error
 {
-    _receivedData = nil;
+    _receivedData = nil;    
+    
+    [_delegate finishWithError:@"Erreur de connexion"];
     
     // inform the user
     NSLog(@"Connection failed! Error - %@ %@",

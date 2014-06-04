@@ -37,14 +37,49 @@
 
     if (self.detailItem)
     {
-        self.lbMAJ.text  = [NSString stringWithFormat:@"Maj : %@", _detailItem.maj];
-        self.lbCodePostal.text  = [NSString stringWithFormat:@"Code postal : %@", _detailItem.codePostal];
-        self.lbCodeINSEE.text  = [NSString stringWithFormat:@"Code INSEE : %@", _detailItem.codeINSEE];
-        self.lbCodeRegion.text  = [NSString stringWithFormat:@"Code région : %@", _detailItem.codeRegion];
-        self.lbLatitude.text  = [NSString stringWithFormat:@"Latitude : %f", _detailItem.latitude];
-        self.lbLongitude.text  = [NSString stringWithFormat:@"Longitude : %f", _detailItem.longitude];
-        self.lbEloignement.text  = [NSString stringWithFormat:@"Éloignement : %f", _detailItem.eloignement];
+        _lbMAJ.text  = [NSString stringWithFormat:@"Maj : %@", _detailItem.maj];
+        _lbCodePostal.text  = [NSString stringWithFormat:@"Code postal : %@", _detailItem.codePostal];
+        _lbCodeINSEE.text  = [NSString stringWithFormat:@"Code INSEE : %@", _detailItem.codeINSEE];
+        _lbCodeRegion.text  = [NSString stringWithFormat:@"Code région : %@", _detailItem.codeRegion];
+        _lbLatitude.text  = [NSString stringWithFormat:@"Latitude : %f", _detailItem.latitude];
+        _lbLongitude.text  = [NSString stringWithFormat:@"Longitude : %f", _detailItem.longitude];
+        _lbEloignement.text  = [NSString stringWithFormat:@"Éloignement : %f", _detailItem.eloignement];
+        [self configureMKMapView];
+        
     }
+}
+
+-(void) configureMKMapView
+{
+    //_mkMapView=[[MKMapView alloc] init];
+    
+    _mkMapView.showsUserLocation=TRUE;
+    _mkMapView.mapType=MKMapTypeHybrid;
+    
+    //definir le zoom
+    MKCoordinateSpan span;
+    span.latitudeDelta=0.5;
+    span.longitudeDelta=0.5;
+    
+    //definir les coordonees
+    CLLocationCoordinate2D coordonnes;
+    coordonnes.latitude= _detailItem.latitude;
+    coordonnes.longitude=_detailItem.longitude;
+    
+    // affiliation des coordonnees a la region
+    MKCoordinateRegion region;
+    region.span=span;
+    region.center=coordonnes;
+    
+    // centrer la carte
+    [_mkMapView setRegion:region animated:TRUE];
+    
+    // ajout d'un repere sur la carte
+    MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
+    annotationPoint.coordinate = coordonnes;
+    annotationPoint.title = _detailItem.nom;
+    annotationPoint.subtitle = _detailItem.codePostal;
+    [_mkMapView addAnnotation:annotationPoint];
 }
 
 - (void)viewDidLoad

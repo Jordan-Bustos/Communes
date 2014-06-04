@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6206342193F3A3A00A681F7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6206341193F3A3A00A681F7 /* MapKit.framework */; };
 		B6498D9F19335DAC00D164EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6498D9E19335DAC00D164EA /* Foundation.framework */; };
 		B6498DA119335DAC00D164EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6498DA019335DAC00D164EA /* CoreGraphics.framework */; };
 		B6498DA319335DAC00D164EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6498DA219335DAC00D164EA /* UIKit.framework */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B6206341193F3A3A00A681F7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B6498D9B19335DAC00D164EA /* TP3-ALT-Bustos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TP3-ALT-Bustos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6498D9E19335DAC00D164EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B6498DA019335DAC00D164EA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -73,6 +75,7 @@
 			files = (
 				B6498DA119335DAC00D164EA /* CoreGraphics.framework in Frameworks */,
 				B6498DA319335DAC00D164EA /* UIKit.framework in Frameworks */,
+				B6206342193F3A3A00A681F7 /* MapKit.framework in Frameworks */,
 				B6498D9F19335DAC00D164EA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +144,7 @@
 		B6498D9D19335DAC00D164EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6206341193F3A3A00A681F7 /* MapKit.framework */,
 				B6498D9E19335DAC00D164EA /* Foundation.framework */,
 				B6498DA019335DAC00D164EA /* CoreGraphics.framework */,
 				B6498DA219335DAC00D164EA /* UIKit.framework */,
@@ -258,6 +262,13 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Jordan Bustos";
 				TargetAttributes = {
+					B6498D9A19335DAC00D164EA = {
+						SystemCapabilities = {
+							com.apple.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					B6498DC119335DAD00D164EA = {
 						TestTargetID = B6498D9A19335DAC00D164EA;
 					};

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "Ville.h"
 
-@interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
+@interface DetailViewController : UIViewController <UISplitViewControllerDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) Ville * detailItem;
 
@@ -21,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbLongitude;
 @property (weak, nonatomic) IBOutlet UILabel *lbEloignement;
 
+@property (strong, nonatomic) IBOutlet MKMapView *mkMapView;
 
 @end
