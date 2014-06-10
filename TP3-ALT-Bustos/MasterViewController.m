@@ -57,8 +57,7 @@
 
 // titre de la section (=nom de la clé à la section)
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    
+{    
     return [_keysSorted objectAtIndex:section];
 }
 

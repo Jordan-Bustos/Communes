@@ -12,15 +12,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    MasterViewController * delegate = nil;
+    
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
+        
+        UINavigationController *navCtrl = [splitViewController.viewControllers firstObject];
+        delegate = (MasterViewController *) (id)navCtrl.topViewController;
     }
-    
-    MasterViewController * delegate = (MasterViewController *) [(UINavigationController*)self.window.rootViewController topViewController];
+    else
+    {
+        delegate = (MasterViewController *) [(UINavigationController*)self.window.rootViewController topViewController];
+    }
     
     DownloaderDelegate *downloader = [[DownloaderDelegate alloc]
                                       initWithURLString:@"http://etudiants.openium.fr/lic/ville.csv"
