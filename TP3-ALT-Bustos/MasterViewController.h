@@ -13,6 +13,11 @@
 @interface MasterViewController : UITableViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
+
+
+
+
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property NSInteger sectionNumber;

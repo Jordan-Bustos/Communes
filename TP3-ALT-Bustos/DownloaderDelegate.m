@@ -39,7 +39,7 @@ const int ELOIGNEMENT = 7;
 {
     // On récupère la date du jour
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd/mm/yyyy"];
+    [formatter setDateFormat:@"dd/MM/yyyy"];
     _dateOfDay = [formatter stringFromDate:[NSDate date]];
     
     NSString * dateOfSettings = [[NSUserDefaults standardUserDefaults] stringForKey:@"lastDateOfDownload"];
@@ -104,7 +104,7 @@ const int ELOIGNEMENT = 7;
             
             // Set up the preference.
             CFStringRef key = CFSTR("lastDateOfDownload");
-            CFStringRef value = (__bridge CFStringRef)(_dateOfDay);
+            CFStringRef value = CFBridgingRetain(_dateOfDay);
             
             CFPreferencesSetAppValue(key, value,
                                      kCFPreferencesCurrentApplication);

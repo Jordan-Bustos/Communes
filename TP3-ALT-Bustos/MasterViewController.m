@@ -106,9 +106,9 @@
 - (NSMutableArray *)sortCommunesByName:(NSMutableArray *)communes
 {
     NSArray * sortedcommunes = [communes sortedArrayUsingComparator:^NSComparisonResult(Commune* communeA, Commune* communeB)
-                              {
-                                  return [communeA.nom compare:communeB.nom];
-                              }];
+                                {
+                                    return [communeA.nom compare:communeB.nom];
+                                }];
     NSMutableArray * sortedCommunesMutable = [[NSMutableArray alloc]initWithArray:sortedcommunes];
     return sortedCommunesMutable;
 }
@@ -169,8 +169,13 @@
         
         // pour chaque commune, si elle contient la chaine saisie, on l'ajoute dans la collection de communes affichées
         for (Commune * commune in _communes)
-            if ([commune.nom rangeOfString:searchText].location != NSNotFound)
+        {
+            if (([commune.nom rangeOfString:searchText].location != NSNotFound) // on cherche sur le nom
+                ||
+                ([commune.codePostal rangeOfString:searchText].location != NSNotFound)) // ou sur le code postal
+                
                 [_communesAffichees addObject:commune];
+        }
     }
     
     _dictionaryOfCommunesByLetter = [self fixDictionaryOfCommuneByLetterWith:_communesAffichees];
