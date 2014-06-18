@@ -12,7 +12,6 @@
 
 @interface DownloaderDelegate : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (strong) MasterViewController * delegate;
 
 @property (strong) NSMutableData * receivedData;
 @property (strong) NSString * URLString;
@@ -22,6 +21,7 @@
 
 @property (strong) NSMutableArray * communes;
 
+@property (strong) MasterViewController * delegate;
 -(id)initWithURLString:(NSString *)URLString andDelegate:(MasterViewController *) delegate;
 -(BOOL) start;
 
